@@ -10,17 +10,18 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-    - name: Delete Old Workflows
-      uses: GitRML/delete-workflow-runs@main
+    - name: Delete workflow runs
+      uses: Mattraks/delete-workflow-runs@v2
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        retain_days: 7
+        retain_days: 2
         keep_minimum_runs: 0
 
-    - name: Delete Old Releases
-      uses: dev-drprasad/delete-older-releases@master
+    - name: Remove old Releases
+      uses: Vucko130/delete-older-releases@v0.2.1
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
-        keep_latest: 15
+        repo: ${{ github.repository }}
+        keep_latest: 5
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
