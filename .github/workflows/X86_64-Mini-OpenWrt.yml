@@ -105,6 +105,16 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
+    - name: Generate Variables
+      run: |
+        cd $OPENWRT_PATH
+        SOURCE_REPO="$(echo $REPO_URL | awk -F '/' '{print $(NF)}')"
+        echo "SOURCE_REPO=$SOURCE_REPO" >> $GITHUB_ENV
+        DEVICE_TARGET=$(cat .config | grep CONFIG_TARGET_BOARD | awk -F '"' '{print $2}')
+        echo "DEVICE_TARGET=$DEVICE_TARGET" >> $GITHUB_ENV
+        DEVICE_SUBTARGET=$(cat .config | grep CONFIG_TARGET_SUBTARGET | awk -F '"' '{print $2}')
+        echo "DEVICE_SUBTARGET=$DEVICE_SUBTARGET" >> $GITHUB_ENV
+
     - name: Compile Packages
       run: |
         cd $OPENWRT_PATH
@@ -146,14 +156,15 @@ jobs:
         bash  rename.sh
 
     - name: Organize Files
-      if: steps.generate.outputs.status == 'success'
+      id: organize
+      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
         cd $OPENWRT_PATH/bin/targets/*/*
         rm -rf packages *.buildinfo *.manifest *kernel.bin *rootfs.img.gz
         echo "FIRMWARE_PATH=$PWD" >> $GITHUB_ENV
 
     - name: Upload Firmware To Artifact
-      if: steps.generate.outputs.status == 'success' && env.FIRMWARE_RELEASE != 'true'
+      if: steps.organize.outputs.status == 'success' && env.FIRMWARE_RELEASE != 'true'
       uses: actions/upload-artifact@main
       with:
         name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
@@ -161,7 +172,7 @@ jobs:
 
     - name: Generate release tag
       id: tag
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      if: env.FIRMWARE_RELEASE == 'true' && !cancelled()
       run: |
         echo 'release_name<<EOF' >> $GITHUB_ENV
         cat openwrt/wget/op_version1| awk 'NR==1' >> $GITHUB_ENV
@@ -182,7 +193,7 @@ jobs:
     - name: Create release
       id: release
       uses: ncipollo/release-action@v1.11.1
-      if: steps.generate.outputs.status == 'success' && env.FIRMWARE_RELEASE == 'true'
+      if: steps.tag.outputs.status == 'success' && !cancelled()
       with:
         name: ${{ env.release_name }}
         tag: ${{ env.release_name }}
