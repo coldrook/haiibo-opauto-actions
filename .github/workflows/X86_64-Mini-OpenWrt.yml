@@ -18,6 +18,7 @@ env:
   SOURCE_BRANCH: master
   CONFIG_FILE: configs/x86_64-mini.config
   DIY_SCRIPT: diy-mini.sh
+  AUTO_SCRIPT: auto.sh
   CLASH_KERNEL: amd64
   UPLOAD_BIN_DIR: false
   FIRMWARE_RELEASE: true
