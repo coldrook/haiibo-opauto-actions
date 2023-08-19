@@ -182,7 +182,7 @@ jobs:
     - name: Create release
       id: release
       uses: ncipollo/release-action@v1.11.1
-      if: steps.tag.outputs.status == 'success' && !cancelled()
+      if: steps.generate.outputs.status == 'success' && env.FIRMWARE_RELEASE == 'true'
       with:
         name: ${{ env.release_name }}
         tag: ${{ env.release_name }}
