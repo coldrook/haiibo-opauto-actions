@@ -134,7 +134,7 @@ jobs:
       run: df -hT
 
     - name: Upload Bin Directory
-      # if: steps.generate.outputs.status == 'success'
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
       uses: actions/upload-artifact@main
       with:
         name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
