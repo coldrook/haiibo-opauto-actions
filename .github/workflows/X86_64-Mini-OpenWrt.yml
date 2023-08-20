@@ -66,8 +66,6 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH workspace/openwrt
         cd workspace/openwrt
         echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
-        VERSION_INFO=$(git show -s --date=short --format="Author: %an<br/>date: %cd<br/>commit: %s<br/>commit hash: %H")
-        echo "VERSION_INFO=$VERSION_INFO" >> $GITHUB_ENV
 
     - name: Load lenyu sh
       run: |
