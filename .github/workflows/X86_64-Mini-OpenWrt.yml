@@ -167,7 +167,8 @@ jobs:
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
         echo 'release_name<<EOF' >> $GITHUB_ENV
-        cat $OPENWRT_PATH/wget/op_version1| awk 'NR==1' >> $GITHUB_ENV
+        cd $OPENWRT_PATH 
+        cat openwrt/wget/op_version1| awk 'NR==1' >> $GITHUB_ENV
         echo 'EOF' >> $GITHUB_ENV
         touch log.txt
         git -C openwrt log --pretty=format:"%s(#By %an)"  --graph --since=3.hour >> log.txt
