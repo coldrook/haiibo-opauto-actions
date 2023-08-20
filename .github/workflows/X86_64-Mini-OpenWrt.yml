@@ -145,14 +145,14 @@ jobs:
 
     - name: Organize Files
       id: organize
-      # if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
         cd $OPENWRT_PATH/bin/targets/*/*
         rm -rf packages *.buildinfo *.manifest *kernel.bin *rootfs.img.gz
         echo "FIRMWARE_PATH=$PWD" >> $GITHUB_ENV
 
     - name: Upload Firmware To Artifact
-      # if: steps.organize.outputs.status == 'success' && env.FIRMWARE_RELEASE != 'true'
+      if: steps.organize.outputs.status == 'success' && !cancelled()
       uses: actions/upload-artifact@main
       with:
         name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
@@ -160,7 +160,7 @@ jobs:
 
     - name: Generate release tag
       id: tag
-      # if: env.FIRMWARE_RELEASE == 'true' && !cancelled()
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
         echo 'release_name<<EOF' >> $GITHUB_ENV
         cat openwrt/wget/op_version1| awk 'NR==1' >> $GITHUB_ENV
@@ -181,7 +181,7 @@ jobs:
     - name: Create release
       id: release
       uses: ncipollo/release-action@v1.11.1
-      # if: steps.tag.outputs.status == 'success' && !cancelled()
+      if: steps.tag.outputs.status == 'success' && !cancelled()
       with:
         name: ${{ env.release_name }}
         tag: ${{ env.release_name }}
