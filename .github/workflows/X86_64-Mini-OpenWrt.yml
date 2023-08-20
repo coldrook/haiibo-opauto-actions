@@ -150,8 +150,10 @@ jobs:
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
         cd $OPENWRT_PATH/bin/targets/*/*
-        rm -rf packages *.buildinfo *.manifest *kernel.bin *rootfs.img.gz
+        rm -rf packages
+        # rm -rf packages *.buildinfo *.manifest *kernel.bin *rootfs.img.gz
         echo "FIRMWARE_PATH=$PWD" >> $GITHUB_ENV
+        echo "status=success" >> $GITHUB_OUTPUT
 
     - name: Upload Firmware To Artifact
       if: steps.organize.outputs.status == 'success' && !cancelled()
