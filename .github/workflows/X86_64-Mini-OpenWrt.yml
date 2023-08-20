@@ -166,7 +166,6 @@ jobs:
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        cd $OPENWRT_PATH 
         echo 'release_name<<EOF' >> $GITHUB_ENV
         cat openwrt/wget/op_version1| awk 'NR==1' >> $GITHUB_ENV
         echo 'EOF' >> $GITHUB_ENV
