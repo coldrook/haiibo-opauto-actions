@@ -63,8 +63,10 @@ jobs:
       id: clone
       run: |
         df -hT $GITHUB_WORKSPACE
-        git clone --depth=1 $REPO_URL -b $REPO_BRANCH workspace/openwrt
-        cd workspace/openwrt
+        # git clone --depth=1 $REPO_URL -b $REPO_BRANCH workspace/openwrt
+        git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+        cd openwrt
         echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
 
     - name: Load lenyu sh
