@@ -186,7 +186,7 @@ jobs:
               
     - name: Create release
       id: release
-      uses: ncipollo/release-action@v1.11.1
+      uses: ncipollo/release-action@main
       if: steps.tag.outputs.status == 'success' && !cancelled()
       with:
         name: ${{ env.release_name }}
