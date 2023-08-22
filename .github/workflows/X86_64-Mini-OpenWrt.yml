@@ -66,6 +66,7 @@ jobs:
         # git clone --depth=1 $REPO_URL -b $REPO_BRANCH workspace/openwrt
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+	# cd workspace/openwrt
         cd openwrt
         echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
 
@@ -105,6 +106,15 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
+    #- name: Generate Variables
+    #  run: |
+    #    cd $OPENWRT_PATH
+    #    SOURCE_REPO="$(echo $SOURCE_URL | awk -F '/' '{print $(NF)}')"
+    #    echo "SOURCE_REPO=$SOURCE_REPO" >> $GITHUB_ENV
+    #    DEVICE_TARGET=$(cat .config | grep CONFIG_TARGET_BOARD | awk -F '"' '{print $2}')
+    #    echo "DEVICE_TARGET=$DEVICE_TARGET" >> $GITHUB_ENV
+    #    DEVICE_SUBTARGET=$(cat .config | grep CONFIG_TARGET_SUBTARGET | awk -F '"' '{print $2}')
+    #    echo "DEVICE_SUBTARGET=$DEVICE_SUBTARGET" >> $GITHUB_ENV
     #- name: Compile Packages
     #  run: |
     #    cd $OPENWRT_PATH
@@ -136,7 +146,7 @@ jobs:
       run: df -hT
 
     - name: Upload Bin Directory
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
+      if: steps.generate.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
       uses: actions/upload-artifact@main
       with:
         name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
@@ -152,8 +162,8 @@ jobs:
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
         cd $OPENWRT_PATH/bin/targets/*/*
-        rm -rf packages
-        # rm -rf packages *.buildinfo *.manifest *kernel.bin *rootfs.img.gz
+        # rm -rf packages
+        rm -rf packages *.buildinfo *.manifest *kernel.bin *rootfs.img.gz
         echo "FIRMWARE_PATH=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
