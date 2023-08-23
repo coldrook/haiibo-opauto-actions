@@ -67,6 +67,9 @@ git clone --depth=1 https://github.com/ximiTech/msd_lite package/msd_lite
 # luci-app-romupdate
 git clone https://github.com/coldrook/luci-app-romupdate  package/luci-app-romupdate
 
+# lucky
+git clone --depth=1 https://github.com/sirpdboy/luci-app-lucky package/lucky
+
 # MosDNS
 svn export https://github.com/sbwml/luci-app-mosdns/trunk/luci-app-mosdns package/luci-app-mosdns
 svn export https://github.com/sbwml/luci-app-mosdns/trunk/mosdns package/mosdns
