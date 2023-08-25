@@ -9,6 +9,7 @@
 name: X86_64 Mini OpenWrt
 
 on:
+  repository_dispatch:
   workflow_dispatch:
   #schedule:
     #- cron: 0 19 * * *
@@ -108,7 +109,7 @@ jobs:
     #- name: Generate Variables
     #  run: |
     #    cd $OPENWRT_PATH
-    #    SOURCE_REPO="$(echo $REPO_URL | awk -F '/' '{print $(NF)}')"
+    #    SOURCE_REPO="$(echo $SOURCE_URL | awk -F '/' '{print $(NF)}')"
     #    echo "SOURCE_REPO=$SOURCE_REPO" >> $GITHUB_ENV
     #    DEVICE_TARGET=$(cat .config | grep CONFIG_TARGET_BOARD | awk -F '"' '{print $2}')
     #    echo "DEVICE_TARGET=$DEVICE_TARGET" >> $GITHUB_ENV
