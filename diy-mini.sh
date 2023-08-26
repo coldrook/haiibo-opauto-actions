@@ -65,7 +65,7 @@ git clone --depth=1 https://github.com/ximiTech/luci-app-msd_lite package/luci-a
 git clone --depth=1 https://github.com/ximiTech/msd_lite package/msd_lite
 
 # luci-app-romupdate
-git clone https://github.com/coldrook/luci-app-romupdate  package/luci-app-romupdate
+# git clone https://github.com/coldrook/luci-app-romupdate  package/luci-app-romupdate
 
 # lucky
 git clone --depth=1 https://github.com/sirpdboy/luci-app-lucky package/lucky
