@@ -24,7 +24,10 @@ env:
   REPO_BRANCH_PassWall: main
   REPO_PATH_PassWall : "openwrt-passwall"
 
-
+  REPO_URL_PassWall Packages: https://github.com/xiaorouji/openwrt-passwall-packages
+  REPO_BRANCH_PassWall Packages: main
+  REPO_PATH_PassWall Packages : "openwrt-passwall-packages"
+  
 on:
   workflow_dispatch:
   schedule:
@@ -54,6 +57,11 @@ jobs:
         cd $REPO_PATH_PassWall
         echo "commitHash_PassWall=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
         cd
+
+        git clone --depth 1 $REPO_URL_PassWall Packages -b $REPO_BRANCH_PassWall Packages $REPO_PATH_PassWall Packages
+        cd $REPO_PATH_PassWall Packages
+        echo "commitHash_PassWall Packages=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+        cd
         
     - name: Show Commit Head and Combination Heads
       id: combHeader
@@ -63,7 +71,8 @@ jobs:
         echo "commitHash_PassWall: ${{ steps.getHash.outputs.commitHash_PassWall }}"
         echo "commitHash_All=${{steps.getHash.outputs.commitHash_Lede}}\
           ${{steps.getHash.outputs.commitHash_HelloWorld}}\
-          ${{steps.getHash.outputs.commitHash_PassWall}}" >> $GITHUB_OUTPUT
+          ${{steps.getHash.outputs.commitHash_PassWall}}\
+          ${{steps.getHash.outputs.commitHash_PassWall Packages}}" >> $GITHUB_OUTPUT
 
     - name: Compare Commit Hash
       id: cacheHash
@@ -79,6 +88,7 @@ jobs:
         echo ${{ steps.getHash.outputs.commitHash_Lede }} | tee .commitHash_Lede
         echo ${{ steps.getHash.outputs.commitHash_HelloWorld }} | tee .commitHash_HelloWorld
         echo ${{ steps.getHash.outputs.commitHash_PassWall }} | tee .commitHash_PassWall
+        echo ${{ steps.getHash.outputs.commitHash_PassWall Packages }} | tee .commitHash_PassWall Packages
         echo ${{ steps.combHeader.outputs.commitHash_All }} | tee .commitHash_All   
         
     - name: Trigger build
