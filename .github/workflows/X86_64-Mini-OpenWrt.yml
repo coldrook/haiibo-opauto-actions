@@ -81,11 +81,11 @@ jobs:
         cd $OPENWRT_PATH 
         bash  lenyu.sh
     
-    - name: Install Feeds
-      run: |
-        cd $OPENWRT_PATH
-        ./scripts/feeds update -a
-        ./scripts/feeds install -a
+    #- name: Install Feeds
+    #  run: |
+    #    cd $OPENWRT_PATH
+    #    ./scripts/feeds update -a
+    #    ./scripts/feeds install -a
 
     - name: Load Custom Configuration
       run: |
