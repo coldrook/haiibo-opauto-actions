@@ -70,6 +70,18 @@ jobs:
         cd openwrt
         echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
     
+    - name: luci-app-openclash install
+      run: |
+        cd openwrt
+        mkdir package/luci-app-openclash
+        cd package/luci-app-openclash
+        git init
+        git remote add -f origin https://github.com/vernesong/OpenClash.git
+        git config core.sparsecheckout true
+        echo "luci-app-openclash" >> .git/info/sparse-checkout
+        git pull --depth 1 origin dev
+        git branch --set-upstream-to=origin/dev master
+    
     - name: Install Feeds
       run: |
         cd $OPENWRT_PATH
