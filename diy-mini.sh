@@ -98,6 +98,7 @@ git clone --depth=1 https://github.com/sirpdboy/luci-app-lucky package/lucky
 #svn export https://github.com/sbwml/luci-app-mosdns/trunk/mosdns package/mosdns
 find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
 find ./ | grep Makefile | grep mosdns | xargs rm -f
+find ./ | grep Makefile | grep v2dat | xargs rm -f
 git clone --depth=1 https://github.com/sbwml/luci-app-mosdns -b v5 package/mosdns
 git clone --depth=1 https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
 # sed -i 's#GO_PKG_TARGET_VARS.*# #g' feeds/packages/utils/v2dat/Makefile
