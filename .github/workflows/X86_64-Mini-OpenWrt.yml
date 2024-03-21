@@ -84,11 +84,11 @@ jobs:
         cd openwrt
         echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
      
-    - name: Install Feeds
-      run: |
-        cd $OPENWRT_PATH
-        ./scripts/feeds update -a
-        ./scripts/feeds install -a
+    #- name: Install Feeds
+    #  run: |
+    #    cd $OPENWRT_PATH
+    #    ./scripts/feeds update -a
+    #    ./scripts/feeds install -a
 
     - name: Load lenyu sh
       run: |
