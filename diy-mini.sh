@@ -19,7 +19,7 @@ sed -i 's/192.168.1.1/192.168.11.1/g' package/base-files/files/bin/config_genera
 # 移除要替换的包
 rm -rf feeds/packages/net/mosdns
 rm -rf feeds/packages/net/msd_lite
-rm -rf feeds/packages/net/smartdns
+# rm -rf feeds/packages/net/smartdns
 rm -rf feeds/packages/pdnsd-alt
 rm -rf feeds/luci/themes/luci-theme-argon
 # rm -rf feeds/luci/applications/luci-app-dockerman
