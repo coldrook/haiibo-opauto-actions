@@ -31,21 +31,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Maximize Build Space
-      uses: easimon/maximize-build-space@master
-      with:
-        root-reserve-mb: 6144
-        swap-size-mb: 10240
-        remove-dotnet: 'true'
-        remove-android: 'true'
-        remove-haskell: 'true'
-        remove-codeql: 'true'
-        #remove-docker-images: 'true'
-        build-mount-path: '/workdir'
-    
-    - name: Checkout
-      uses: actions/checkout@main
-
     - name: Check Server Performance
       run: |
         echo "警告⚠"
@@ -59,7 +44,7 @@ jobs:
         echo -e "$(sudo lshw -short -C memory | grep GiB) \n"
         echo "--------------------------硬盘信息--------------------------"
         echo "硬盘数量：$(ls /dev/sd* | grep -v [1-9] | wc -l)" && df -hT
-
+    
     - name: Initialization Environment
       env:
         DEBIAN_FRONTEND: noninteractive
@@ -85,6 +70,16 @@ jobs:
     #    sudo -E apt-get -qq autoremove --purge
     #    sudo -E apt-get -qq clean
     #    sudo timedatectl set-timezone "$TZ"
+
+    - name: Combine Disks
+      uses: easimon/maximize-build-space@master
+      with:
+        swap-size-mb: 1024
+        temp-reserve-mb: 100
+        root-reserve-mb: 1024
+
+    - name: Checkout
+      uses: actions/checkout@main
 
     - name: Clone Source Code
       id: clone
