@@ -159,17 +159,6 @@ jobs:
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
-    
-    #- name: Compile Packages
-    #  run: |
-    #    cd $OPENWRT_PATH
-    #    echo -e "$(nproc) thread compile"
-    #    make tools/compile -j$(nproc) || make tools/compile -j1 V=s
-    #    make toolchain/compile -j$(nproc) || make toolchain/compile -j1 V=s
-    #    make diffconfig
-    #    make target/compile -j$(nproc) || make target/compile -j1 V=s IGNORE_ERRORS=1
-    #    make package/compile -j$(nproc) IGNORE_ERRORS=1 || make package/compile -j1 V=s IGNORE_ERRORS=1
-    #    make package/index
 
     - name: Generate Firmware
       id: generate
