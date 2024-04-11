@@ -20,6 +20,7 @@ sed -i 's/192.168.1.1/192.168.11.1/g' package/base-files/files/bin/config_genera
 rm -rf feeds/packages/net/mosdns
 rm -rf feeds/packages/net/msd_lite
 rm -rf feeds/packages/net/smartdns
+rm -rf feeds/packages/pdnsd-alt
 rm -rf feeds/luci/themes/luci-theme-argon
 # rm -rf feeds/luci/applications/luci-app-dockerman
 rm -rf feeds/luci/applications/luci-app-mosdns
@@ -28,6 +29,9 @@ rm -rf feeds/luci/applications/luci-app-netdata
 # 移除 openwrt feeds 自带的核心包
 rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box}
 git clone https://github.com/sbwml/openwrt_helloworld package/helloworld
+
+# pdnsd-alt
+git clone --depth=1 https://github.com/op4packages/pdnsd-alt package/pdnsd-alt
 
 # 更新 golang 1.22 版本
 rm -rf feeds/packages/lang/golang
