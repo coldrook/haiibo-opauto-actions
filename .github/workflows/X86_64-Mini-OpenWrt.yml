@@ -255,8 +255,6 @@ jobs:
         test  ! -s release.txt && echo -e "\n* The source code is not updated." >> release.txt
         sed -i '1i ## Firmware Update Log' release.txt
         touch release.txt
-        [ $UPLOAD_COWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
-        [ $UPLOAD_WETRANSFER = true ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: Upload firmware to release
