@@ -208,61 +208,33 @@ jobs:
         name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE_PATH }}
 
-    #- name: Generate release tag
-    #  id: tag
-    #  if: env.UPLOAD_RELEASE == 'true' && !cancelled()
-    #  run: |
-    #    echo 'release_name<<EOF' >> $GITHUB_ENV
-    #    cat openwrt/wget/op_version1| awk 'NR==1' >> $GITHUB_ENV
-    #    echo 'EOF' >> $GITHUB_ENV
-    #    touch log.txt
-    #    git -C openwrt log --pretty=format:"%s(#By %an)"  --graph --since=3.hour >> log.txt
-    #    git -C openwrt/feeds/packages log --pretty=format:"%s(#By %an)"  --graph --since=3.hour >> log.txt
-    #    git -C openwrt/feeds/luci log --pretty=format:"%s(#By %an)"  --graph --since=3.hour >> log.txt
-    #    git -C openwrt/feeds/routing log --pretty=format:"%s(#By %an)"  --graph --since=3.hour >> log.txt
-    #    git -C openwrt/feeds/telephony log --pretty=format:"%s(#By %an)"  --graph --since=3.hour >> log.txt
-    #    # git -C openwrt/feeds/helloworld log --pretty=format:"%s(#By %an)"  --graph --since=4.hour >> log.txt
-    #    # git -C openwrt/feeds/passwall log --pretty=format:"%s(#By %an)"  --graph --since=8.hour >> log.txt
-    #    git -C openwrt/package/luci-app-openclash log --pretty=format:"%s(#By %an)"  --graph --since=8.hour >> log.txt
-    #    test  ! -s log.txt && echo -e "\n* The source code is not updated." >> log.txt
-    #    sed -i '1i ## Firmware Update Log' log.txt
-    #    echo "status=success" >> $GITHUB_OUTPUT
-              
-    #- name: Create release
-    #  id: release
-    #  uses: ncipollo/release-action@main
-    #  #if: steps.tag.outputs.status == 'success' && !cancelled()
-    #  with:
-    #    name: ${{ env.release_name }}
-    #    tag: ${{ env.release_name }}
-    #    token: ${{ secrets.GITHUB_TOKEN }}
-    #    bodyfile: log.txt
-    #    artifacts: ${{ env.FIRMWARE_PATH }}/*
-
     - name: Generate release tag
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        echo "release_tag=$(cat openwrt/wget/op_version1)" >> $GITHUB_ENV
-        git -C openwrt log --pretty=format:"%s(#By %an)"  --graph --since=3.hour >> release.txt
-        git -C openwrt/feeds/packages log --pretty=format:"%s(#By %an)"  --graph --since=3.hour >> release.txt
-        git -C openwrt/feeds/luci log --pretty=format:"%s(#By %an)"  --graph --since=3.hour >> release.txt
-        git -C openwrt/feeds/routing log --pretty=format:"%s(#By %an)"  --graph --since=3.hour >> release.txt
-        git -C openwrt/feeds/telephony log --pretty=format:"%s(#By %an)"  --graph --since=3.hour >> release.txt
-        # git -C openwrt/feeds/helloworld log --pretty=format:"%s(#By %an)"  --graph --since=4.hour >> release.txt
-        # git -C openwrt/feeds/passwall log --pretty=format:"%s(#By %an)"  --graph --since=8.hour >> release.txt
-        git -C openwrt/package/luci-app-openclash log --pretty=format:"%s(#By %an)"  --graph --since=8.hour >> release.txt
-        test  ! -s release.txt && echo -e "\n* The source code is not updated." >> release.txt
-        sed -i '1i ## Firmware Update Log' release.txt
-        touch release.txt
+        echo 'release_name<<EOF' >> $GITHUB_ENV
+        cat openwrt/wget/op_version1| awk 'NR==1' >> $GITHUB_ENV
+        echo 'EOF' >> $GITHUB_ENV
+        touch log.txt
+        git -C openwrt log --pretty=format:"%s(#By %an)"  --graph --since=3.hour >> log.txt
+        git -C openwrt/feeds/packages log --pretty=format:"%s(#By %an)"  --graph --since=3.hour >> log.txt
+        git -C openwrt/feeds/luci log --pretty=format:"%s(#By %an)"  --graph --since=3.hour >> log.txt
+        git -C openwrt/feeds/routing log --pretty=format:"%s(#By %an)"  --graph --since=3.hour >> log.txt
+        git -C openwrt/feeds/telephony log --pretty=format:"%s(#By %an)"  --graph --since=3.hour >> log.txt
+        # git -C openwrt/feeds/helloworld log --pretty=format:"%s(#By %an)"  --graph --since=4.hour >> log.txt
+        # git -C openwrt/feeds/passwall log --pretty=format:"%s(#By %an)"  --graph --since=8.hour >> log.txt
+        git -C openwrt/package/luci-app-openclash log --pretty=format:"%s(#By %an)"  --graph --since=8.hour >> log.txt
+        test  ! -s log.txt && echo -e "\n* The source code is not updated." >> log.txt
+        sed -i '1i ## Firmware Update Log' log.txt
         echo "status=success" >> $GITHUB_OUTPUT
-
-    - name: Upload firmware to release
-      uses: softprops/action-gh-release@master
+              
+    - name: Create release
+      id: release
+      uses: ncipollo/release-action@main
       if: steps.tag.outputs.status == 'success' && !cancelled()
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.tag.outputs.release_tag }}
-        body_path: release.txt
-        files: ${{ env.FIRMWARE_PATH }}/*
+        name: ${{ env.release_name }}
+        tag: ${{ env.release_name }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        bodyfile: log.txt
+        artifacts: ${{ env.FIRMWARE_PATH }}/*
