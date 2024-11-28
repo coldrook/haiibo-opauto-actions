@@ -18,7 +18,7 @@ sed -i 's/192.168.1.1/192.168.11.1/g' package/base-files/files/bin/config_genera
 
 # 移除要替换的包
 rm -rf feeds/packages/net/mosdns
-rm -rf feeds/packages/net/msd_lite
+# rm -rf feeds/packages/net/msd_lite
 # rm -rf feeds/packages/net/smartdns
 rm -rf feeds/packages/pdnsd-alt
 rm -rf feeds/luci/themes/luci-theme-argon
@@ -88,8 +88,8 @@ git_sparse_clone main https://github.com/haiibo/packages luci-theme-opentomcat
 # git clone --depth=1 https://github.com/pymumu/openwrt-smartdns package/smartdns
 
 # msd_lite
-git clone --depth=1 https://github.com/ximiTech/luci-app-msd_lite package/luci-app-msd_lite
-git clone --depth=1 https://github.com/ximiTech/msd_lite package/msd_lite
+# git clone --depth=1 https://github.com/ximiTech/luci-app-msd_lite package/luci-app-msd_lite
+# git clone --depth=1 https://github.com/ximiTech/msd_lite package/msd_lite
 
 # luci-app-romupdate
 # git clone https://github.com/coldrook/luci-app-romupdate  package/luci-app-romupdate
