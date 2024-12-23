@@ -124,6 +124,27 @@ if [ $? != 0 ]; then
 	exit 0
 	EOF
 fi
+grep "xray_backup"  package/lean/default-settings/files/zzz-default-settings
+if [ $? != 0 ]; then
+	sed -i 's/exit 0/ /'  package/lean/default-settings/files/zzz-default-settings
+	cat>> package/lean/default-settings/files/zzz-default-settings<<-EOF
+		cat> /etc/rc.local<<-EOFF
+		# Put your custom commands here that should be executed once
+		# the system init finished. By default this file does nothing.
+		if [ -f "/etc/xray_backup/xray_backup" ]; then
+		cp -f /etc/xray_backup/xray_backup /usr/bin/xray
+		# chmod +x /usr/bin/xray
+		# Check if the copy operation was successful
+		  if [ $? -eq 0 ]; then
+			 touch /tmp/xray_succ.log
+		  fi
+		rm -rf  /etc/xray_backup/xray_backup
+		fi
+		exit 0
+		EOFF
+		exit 0
+	EOF
+fi
 EOOF
 
 cat>files/usr/share/Check_Update.sh<<-\EOF
