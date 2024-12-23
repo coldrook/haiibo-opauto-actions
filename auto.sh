@@ -140,6 +140,13 @@ if [ ! -f  "/etc/lenyu_version" ]; then
 	exit 0
 fi
 rm -f /tmp/cloud_version
+
+# 备份backup-passwall中的xray文件
+if [ ! -d "/etc/xray_backup" ]; then
+    mkdir /etc/xray_backup
+fi
+cp -f /usr/bin/xray /etc/xray_backup/xray_backup
+
 # 获取固件云端版本号、内核版本号信息
 current_version=`cat /etc/lenyu_version`
 wget -qO- -t1 -T2 "https://api.github.com/repos/coldrook/haiibo-opauto-actions/releases/latest" | grep "tag_name" | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/,//g;s/ //g;s/v//g'  > /tmp/cloud_ts_version
