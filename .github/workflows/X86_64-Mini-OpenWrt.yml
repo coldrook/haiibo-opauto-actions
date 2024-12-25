@@ -11,6 +11,11 @@ name: X86_64 Mini OpenWrt
 on:
   repository_dispatch:
   workflow_dispatch:
+    inputs:
+      ssh:
+        description: 'SSH connection to Actions'
+        required: false
+        default: 'false'
   #schedule:
     #- cron: 0 19 * * *
 
