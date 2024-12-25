@@ -36,22 +36,9 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-    
-    - name: Maximize Build Space
-      uses: easimon/maximize-build-space@master
-      with:
-        root-reserve-mb: 6144
-        swap-size-mb: 10240
-        remove-dotnet: 'true'
-        remove-android: 'true'
-        remove-haskell: 'true'
-        remove-codeql: 'true'
-        remove-docker-images: 'true'
-        build-mount-path: '$GITHUB_WORKSPACE'
-     
     - name: Checkout
-      uses: actions/checkout@main   
-
+      uses: actions/checkout@main
+      
     - name: Disk space
       run: |
            echo "Free space:"
@@ -68,8 +55,17 @@ jobs:
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
-        sudo mkdir -p /$GITHUB_WORKSPACE
-        sudo chown $USER:$GROUPS /$GITHUB_WORKSPACE
+
+    - name: Maximize Build Space
+      uses: easimon/maximize-build-space@master
+      with:
+        root-reserve-mb: 6144
+        swap-size-mb: 10240
+        remove-dotnet: 'true'
+        remove-android: 'true'
+        remove-haskell: 'true'
+        remove-codeql: 'true'
+        remove-docker-images: 'true'
 
     - name: Clone Source Code
       id: clone
