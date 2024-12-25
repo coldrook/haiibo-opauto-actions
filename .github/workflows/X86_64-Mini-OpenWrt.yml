@@ -36,13 +36,6 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@main
-      
-    - name: Disk space
-      run: |
-           echo "Free space:"
-           df -h
 
     - name: Initialization environment
       env:
@@ -67,6 +60,9 @@ jobs:
         remove-codeql: 'true'
         remove-docker-images: 'true'
 
+    - name: Checkout
+      uses: actions/checkout@main
+      
     - name: Clone Source Code
       id: clone
       run: |
