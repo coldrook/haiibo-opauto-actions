@@ -76,6 +76,14 @@ jobs:
         cd openwrt
         echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
 
+    - name: Cache
+      uses: klever1988/cachewrtbuild@main
+      with:
+       ccache: 'true' #'true' 默认值
+       #清空缓存
+       clean:  'false'  # 'false' 默认值
+       prefix: ${{ github.workspace }}/openwrt
+
     #- name: Clone Source Code
     #  run: |
     #    df -hT $GITHUB_WORKSPACE
