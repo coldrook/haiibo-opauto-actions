@@ -80,8 +80,8 @@ jobs:
       uses: klever1988/cachewrtbuild@main
       with:
        ccache: 'true' #'true' 默认值
-       #清空缓存
-       clean:  'true'  # 'false' 默认值
+       # 清空缓存: 'true' (清除缓存), 'false' (不清除缓存, 重用缓存).  设置为 'false' 以加速后续构建.
+       clean:  'false'  # 'false' 默认值
        prefix: ${{ github.workspace }}/openwrt
 
     #- name: Clone Source Code
@@ -160,7 +160,8 @@ jobs:
         mkdir -p files/etc/uci-defaults
         cp $GITHUB_WORKSPACE/scripts/init-settings.sh files/etc/uci-defaults/99-init-settings
         echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j1 || make -j1 V=s
+        make -j$(nproc) V=s
+        # make -j$(nproc) || make -j1 || make -j1 V=s
         # make package/install -j$(nproc) || make package/install -j1 V=s
         # make target/install -j$(nproc) || make target/install -j1 V=s
         echo "status=success" >> $GITHUB_OUTPUT
