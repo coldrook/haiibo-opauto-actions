@@ -81,7 +81,7 @@ jobs:
       with:
        ccache: 'true' #'true' 默认值
        # 清空缓存: 'true' (清除缓存), 'false' (不清除缓存, 重用缓存).  设置为 'false' 以加速后续构建.
-       clean:  'false'  # 'false' 默认值
+       clean:  'true'  # 'false' 默认值
        prefix: ${{ github.workspace }}/openwrt
 
     #- name: Clone Source Code
